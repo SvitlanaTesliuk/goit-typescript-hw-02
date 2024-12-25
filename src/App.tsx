@@ -25,6 +25,9 @@ interface ModalData {
   urls: {
     full: string;
   };
+  user?: {
+    name: string;
+  };
 }
 
 const App: React.FC = () => {
@@ -89,7 +92,19 @@ const App: React.FC = () => {
         </>
       )}
       {modalData && (
-  <ImageModal image={modalData as Image} onClose={() => setModalData(null)} />
+  <ImageModal
+    image={{
+      id: modalData.id,
+      alt_description: modalData.alt_description,
+      urls: {
+        regular: modalData.urls.full,
+        small: "",
+        full: ""
+      }, 
+      user: modalData.user || { name: "Unknown" }, 
+    }}
+    onClose={() => setModalData(null)}
+  />
 )}
       <Toaster />
     </div>

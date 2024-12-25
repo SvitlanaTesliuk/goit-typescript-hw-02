@@ -3,11 +3,14 @@ import Modal from "react-modal";
 import styles from "./ImageModal.module.css";
 
 interface Image {
-  urls: {
-    regular: string;
-  };
+  id: string;
   alt_description: string;
-  user: {
+  urls: {
+    small: string;
+    full: string;
+    regular?: string; 
+  };
+  user?: {
     name: string;
   };
 }
@@ -24,7 +27,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ image, onClose }) => {
     <Modal isOpen onRequestClose={onClose} className={styles.overlay}>
       <div className={styles.modal}>
         <img src={urls.regular} alt={alt_description} />
-        <p>Author: {user.name}</p>
+        <p>Author: {user?.name}</p>
         <button onClick={onClose} className={styles.closeButton}>Close</button>
       </div>
     </Modal>

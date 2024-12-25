@@ -15,8 +15,9 @@ interface Image {
 }
 
 interface ImageGalleryProps {
-  images: Image[]; 
+  images: Image[];
   onImageClick: (image: Image) => void;
+  className?: string; 
 }
 
 const ImageGallery: React.FC<ImageGalleryProps> = ({ images, onImageClick }) => {
