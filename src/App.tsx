@@ -9,26 +9,14 @@ import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import { Toaster, toast } from "react-hot-toast";
 import axios from "axios";
 import styles from "./App.module.css";
+import { Image } from "./types/ImageInterface";
 
-interface Image {
-  id: string;
-  alt_description: string;
-  urls: {
-    small: string;
-    full: string;
-  };
+interface UnsplashApiResponse {
+  results: Image[];
+  total: number; 
+  total_pages: number; 
 }
 
-interface ModalData {
-  id: string;
-  alt_description: string;
-  urls: {
-    full: string;
-  };
-  user?: {
-    name: string;
-  };
-}
 
 const App: React.FC = () => {
   const [query, setQuery] = useState<string>("");
@@ -36,7 +24,7 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<number>(1);
-  const [modalData, setModalData] = useState<ModalData | null>(null);
+  const [modalData, setModalData] = useState<Image | null>(null);
 
   const accessKey = "C4kY6VQ5P4PHGomPk1R0RCn2uh0et6u8dwP9yVl67JA";
 
@@ -45,7 +33,7 @@ const App: React.FC = () => {
     setError(null);
 
     try {
-      const response = await axios.get("https://api.unsplash.com/search/photos", {
+      const response = await axios.get<UnsplashApiResponse>("https://api.unsplash.com/search/photos", {
         params: { query: newQuery, page: newPage, per_page: 12 },
         headers: {
           Authorization: `Client-ID ${accessKey}`,
@@ -53,6 +41,7 @@ const App: React.FC = () => {
       });
 
       const fetchedImages: Image[] = response.data.results;
+      
       setImages((prevImages) =>
         newPage === 1 ? fetchedImages : [...prevImages, ...fetchedImages]
       );
@@ -92,20 +81,8 @@ const App: React.FC = () => {
         </>
       )}
       {modalData && (
-  <ImageModal
-    image={{
-      id: modalData.id,
-      alt_description: modalData.alt_description,
-      urls: {
-        regular: modalData.urls.full,
-        small: "",
-        full: ""
-      }, 
-      user: modalData.user || { name: "Unknown" }, 
-    }}
-    onClose={() => setModalData(null)}
-  />
-)}
+        <ImageModal image={modalData} onClose={() => setModalData(null)} />
+      )}
       <Toaster />
     </div>
   );

@@ -1,17 +1,6 @@
 import React from "react";
 import styles from "./ImageCard.module.css";
-
-interface Image {
-  id: string;
-  alt_description: string;
-  urls: {
-    small: string;
-    full: string;
-  };
-  user?: {
-    name: string;
-  };
-}
+import { Image } from "../../types/ImageInterface";
 
 interface ImageCardProps {
   image: Image;

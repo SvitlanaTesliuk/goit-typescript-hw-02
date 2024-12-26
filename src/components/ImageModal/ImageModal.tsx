@@ -1,19 +1,8 @@
 import React from "react";
 import Modal from "react-modal";
 import styles from "./ImageModal.module.css";
+import { Image } from "../../types/ImageInterface";
 
-interface Image {
-  id: string;
-  alt_description: string;
-  urls: {
-    small: string;
-    full: string;
-    regular?: string; 
-  };
-  user?: {
-    name: string;
-  };
-}
 
 interface ImageModalProps {
   image: Image;
